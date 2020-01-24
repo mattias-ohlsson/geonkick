@@ -1,0 +1,30 @@
+From cdfab9e6ab87bea0e8adea1720887c936edfcf2f Mon Sep 17 00:00:00 2001
+From: Mattias Ohlsson <mattias.ohlsson@inprose.com>
+Date: Tue, 14 Jan 2020 22:45:21 +0100
+Subject: [PATCH] Use CMAKE_INSTALL_LIBDIR instead hardcoded lib
+
+---
+ plugin/lv2/CMakeLists.txt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/plugin/lv2/CMakeLists.txt b/plugin/lv2/CMakeLists.txt
+index 4679d21..164aa31 100644
+--- a/plugin/lv2/CMakeLists.txt
++++ b/plugin/lv2/CMakeLists.txt
+@@ -1,3 +1,5 @@
++include(GNUInstallDirs)
++
+ set(GKICK_LV2_SOURCES ${GKICK_LV2_DIR}/geonkick_lv2.cpp)
+ 
+ add_library(geonkick_lv2 SHARED
+@@ -10,5 +12,5 @@ target_link_libraries(geonkick_lv2 "-lstdc++fs")
+ target_link_libraries(geonkick_lv2 "-lredkite -lX11 -lsndfile -lrt -lm -ldl -lpthread -lcairo")
+ add_dependencies(geonkick_lv2 api_lv2)
+ 
+-install(DIRECTORY ${GKICK_LV2_DIR}/geonkick.lv2 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/lv2)
+-install(TARGETS geonkick_lv2 DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/lv2/geonkick.lv2)
++install(DIRECTORY ${GKICK_LV2_DIR}/geonkick.lv2 DESTINATION ${CMAKE_INSTALL_LIBDIR}/lv2)
++install(TARGETS geonkick_lv2 DESTINATION ${CMAKE_INSTALL_LIBDIR}/lv2/geonkick.lv2)
+-- 
+2.18.1
+
