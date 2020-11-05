@@ -1,16 +1,13 @@
-%global debug_package %{nil}
 Name:           geonkick
-Version:        1.9.2
+Version:        2.3.8
 Release:        1%{?dist}
 Summary:        A synthesizer that can synthesize elements of percussion
 
 License:        GPLv3+
-URL:            https://gitlab.com/geontime/geonkick
-Source0:        https://gitlab.com/geontime/%{name}/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
+URL:            https://github.com/iurie-sw/geonkick
+Source0:        https://gitlab.com/iurie-sw/%{name}/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 
-Patch0:         geonkick-1.9.2-lv2-install-dir-fix.patch
-
-BuildRequires:  cmake
+BuildRequires:  cmake gcc gcc-c++
 BuildRequires:  libsndfile-devel
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  lv2-devel
@@ -36,12 +33,12 @@ Summary:        Geonkick plugin in LV2 format
 This package contains the LV2 plugin.
 
 %prep
-%autosetup -p1 -n %{name}-v%{version} 
+%autosetup -p1 -n %{name}-v%{version}
 
 %build
 mkdir build
 cd build
-%cmake -DGKICK_REDKITE_SDK_PATH=/usr -DENABLE_STANDALONE=true ../
+%cmake -DENABLE_STANDALONE=true -DCMAKE_BUILD_TYPE=Debug ../
 %make_build
 
 %install
@@ -56,10 +53,15 @@ cd build
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/mime/packages/%{name}.xml
+%{_datadir}/%{name}/presets/
+%{_mandir}/man1/geonkick.1*
 
 %files -n lv2-%{name}-plugins
 %{_libdir}/lv2/%{name}.lv2/
 
 %changelog
+* Thu Nov 05 2020 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 2.3.8-1
+- Update to 2.3.8
+
 * Fri Jan 24 2020 Mattias Ohlsson <mattias.ohlsson@inprose.com> - 1.9.2-1
 - Initial build
